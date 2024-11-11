@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "antd";  // Importando o componente Tabs do Ant Design
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -124,74 +124,56 @@ export default function LandingPage() {
                 <div className="animate-spin h-8 w-8 border-t-4 border-amber-700 border-solid rounded-full"></div>
               </div>
             ) : (
-              <Tabs defaultValue="firstReading" className="w-full">
-                <TabsList
-                  className={`grid w-full ${
-                    liturgyData?.segundaLeitura.texto
-                      ? "grid-cols-4"
-                      : "grid-cols-3"
-                  } bg-amber-100`}
-                >
-                  <TabsTrigger value="firstReading">1ª Leitura</TabsTrigger>
-                  {liturgyData?.segundaLeitura.texto && (
-                    <TabsTrigger value="secondReading" className="text-clip">
-                      2ª Leitura
-                    </TabsTrigger>
-                  )}
+              <Tabs defaultActiveKey="firstReading" className="w-full">
+                <Tabs.TabPane tab="1ª Leitura" key="firstReading">
+                  <h2 className="text-xl font-semibold mb-2">
+                    {liturgyData?.primeiraLeitura.titulo}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {liturgyData?.primeiraLeitura.referencia}
+                  </p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                    {formatText(liturgyData?.primeiraLeitura.texto || "")}
+                  </p>
+                </Tabs.TabPane>
 
-                  <TabsTrigger value="psalm">Salmo</TabsTrigger>
-                  <TabsTrigger value="gospel">Evangelho</TabsTrigger>
-                </TabsList>
-                {liturgyData && (
-                  <>
-                    <TabsContent value="firstReading" className="mt-4 border-x">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {liturgyData.primeiraLeitura.titulo}
-                      </h2>
-                      <p className="text-sm text-gray-600 mb-2">
-                        {liturgyData.primeiraLeitura.referencia}
-                      </p>
-                      <p className="text-gray-700 whitespace-pre-line">
-                        {formatText(liturgyData.primeiraLeitura.texto)}
-                      </p>
-                    </TabsContent>
-                    {liturgyData.segundaLeitura.texto && (
-                      <TabsContent value="secondReading" className="mt-4">
-                        <h2 className="text-xl font-semibold mb-2">
-                          {liturgyData.segundaLeitura.titulo}
-                        </h2>
-                        <p className="text-sm text-gray-600 mb-2">
-                          {liturgyData.segundaLeitura.referencia}
-                        </p>
-                        <p className="text-gray-700 whitespace-pre-line">
-                          {liturgyData.segundaLeitura.texto}
-                        </p>
-                      </TabsContent>
-                    )}
-                    <TabsContent value="psalm" className="mt-4">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {liturgyData.salmo.titulo}
-                      </h2>
-                      <p className="text-sm text-gray-600 mb-2">
-                        {liturgyData.salmo.referencia}
-                      </p>
-                      <p className="text-gray-700 whitespace-pre-line">
-                        {liturgyData.salmo.texto}
-                      </p>
-                    </TabsContent>
-                    <TabsContent value="gospel" className="mt-4">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {liturgyData.evangelho.titulo}
-                      </h2>
-                      <p className="text-sm text-gray-600 mb-2">
-                        {liturgyData.evangelho.referencia}
-                      </p>
-                      <p className="text-gray-700 whitespace-pre-line">
-                        {liturgyData.evangelho.texto}
-                      </p>
-                    </TabsContent>
-                  </>
+                {liturgyData?.segundaLeitura.texto && (
+                  <Tabs.TabPane tab="2ª Leitura" key="secondReading">
+                    <h2 className="text-xl font-semibold mb-2">
+                      {liturgyData.segundaLeitura.titulo}
+                    </h2>
+                    <p className="text-sm text-gray-600 mb-2">
+                      {liturgyData.segundaLeitura.referencia}
+                    </p>
+                    <p className="text-gray-700 whitespace-pre-line">
+                       {formatText(liturgyData.segundaLeitura.texto || "")}
+                    </p>
+                  </Tabs.TabPane>
                 )}
+
+                <Tabs.TabPane tab="Salmo" key="psalm">
+                  <h2 className="text-xl font-semibold mb-2">
+                    {liturgyData?.salmo.titulo}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {liturgyData?.salmo.referencia}
+                  </p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                    {liturgyData?.salmo.texto}
+                  </p>
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Evangelho" key="gospel">
+                  <h2 className="text-xl font-semibold mb-2">
+                    {liturgyData?.evangelho.titulo}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {liturgyData?.evangelho.referencia}
+                  </p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                  {formatText(liturgyData?.evangelho.texto || "")}
+                  </p>
+                </Tabs.TabPane>
               </Tabs>
             )}
           </CardContent>
